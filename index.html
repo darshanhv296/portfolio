@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <meta name="theme-color" content="#030509">
-<meta name="description" content="Darshan H V — AI/ML & Systems Architect portfolio featuring immersive 3D WebGL VR spatial effects, neural computing, and interactive HUD telemetry.">
+<meta name="description" content="Darshan H V — Computer Science (AIML) student at PES University building machine learning, software, IoT, and engineering projects.">
 <title>Darshan H V | AI & Software Portfolio</title>
 
 <!-- Fonts -->
@@ -1094,6 +1094,107 @@ footer {
   html { scroll-behavior: auto; }
   * { animation: none !important; transition: none !important; }
 }
+
+/* Portfolio Q&A assistant */
+#about-bot-launcher{position:fixed;right:24px;bottom:24px;z-index:700;display:flex;align-items:center;gap:10px;padding:13px 18px;border:1px solid var(--reactor);border-radius:999px;background:rgba(5,12,24,.94);color:#fff;font:700 13px var(--font-main);cursor:pointer;box-shadow:0 8px 32px rgba(0,0,0,.45),0 0 22px var(--reactor-dim);backdrop-filter:blur(14px)}
+#about-bot-launcher:hover{transform:translateY(-2px);box-shadow:0 10px 34px var(--reactor-dim)}
+#about-bot{position:fixed;right:24px;bottom:86px;z-index:701;width:min(390px,calc(100vw - 28px));height:min(540px,calc(100dvh - 120px));display:none;flex-direction:column;overflow:hidden;border:1px solid rgba(0,242,254,.38);border-radius:20px;background:rgba(5,10,20,.97);box-shadow:0 22px 70px rgba(0,0,0,.65),0 0 28px rgba(0,242,254,.1);backdrop-filter:blur(20px)}
+#about-bot.open{display:flex}
+.bot-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 17px;border-bottom:1px solid var(--border-subtle);background:rgba(0,242,254,.06)}
+.bot-head strong{display:block;font-size:14px}.bot-head small{color:var(--muted);font-size:11px}
+#about-bot-close{border:1px solid var(--border-subtle);background:transparent;color:#fff;border-radius:9px;padding:5px 10px;cursor:pointer}
+.bot-suggestions{display:flex;gap:7px;flex-wrap:wrap;padding:11px 13px;border-bottom:1px solid var(--border-subtle)}
+.bot-suggestions button{border:1px solid var(--border-cyan);border-radius:999px;background:rgba(0,242,254,.06);color:#dcefff;padding:6px 9px;font-size:11px;cursor:pointer}
+#bot-messages{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.bot-msg{max-width:90%;padding:10px 12px;border-radius:13px;font-size:12.5px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.bot-msg.bot{align-self:flex-start;background:rgba(255,255,255,.07);border:1px solid var(--border-subtle);color:#eaf0fb}
+.bot-msg.user{align-self:flex-end;background:rgba(0,180,216,.16);border:1px solid rgba(0,242,254,.3);color:#fff}
+.bot-compose{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border-subtle)}
+#bot-input{flex:1;min-width:0;background:#080f1c;color:#fff;border:1px solid var(--border-subtle);border-radius:10px;padding:11px 12px;font:inherit;font-size:12px;outline:none}
+#bot-input:focus{border-color:var(--reactor)}
+#bot-send{border:0;border-radius:10px;padding:0 14px;background:var(--reactor);color:#041018;font-weight:800;cursor:pointer}
+@media(max-width:520px){#about-bot-launcher{right:14px;bottom:14px}#about-bot{right:14px;bottom:76px}}
+
+
+
+/* ===== Portfolio redesign: premium, cleaner layout while retaining 3D effects ===== */
+:root {
+  --bg:#070b14; --bg-deep:#040711; --panel:rgba(13,20,36,.78); --panel-solid:#0d1424;
+  --panel-glow:rgba(96,165,250,.08); --border:rgba(129,140,248,.24); --border-cyan:rgba(96,165,250,.34);
+  --border-neon:rgba(129,140,248,.3); --border-subtle:rgba(226,232,240,.10); --text:#f3f6ff; --muted:#a0aec4;
+  --crimson:#3346a8; --crimson-bright:#6478ff; --crimson-glow:rgba(99,102,241,.35);
+  --gold:#93a4ff; --gold-bright:#d1d8ff; --gold-glow:rgba(129,140,248,.25);
+  --reactor:#60a5fa; --reactor-bright:#93c5fd; --reactor-dim:rgba(96,165,250,.10); --reactor-glow:rgba(96,165,250,.42);
+  --vr-purple:#8b5cf6; --vr-purple-glow:rgba(139,92,246,.30); --neon-green:#6ee7b7;
+}
+body { background: radial-gradient(ellipse at 50% -20%,rgba(59,76,150,.20),transparent 50%),var(--bg); }
+#webgl-canvas { opacity:.72; }
+.vr-hologram-vignette { background:radial-gradient(circle at 50% 35%,transparent 5%,rgba(3,7,17,.28) 68%,rgba(3,7,17,.78) 100%),linear-gradient(to right,rgba(96,165,250,.012) 1px,transparent 1px),linear-gradient(to bottom,rgba(96,165,250,.012) 1px,transparent 1px); background-size:auto,48px 48px,48px 48px; }
+.top { background:rgba(7,11,20,.82); border-bottom:1px solid rgba(148,163,184,.13); box-shadow:0 8px 30px rgba(0,0,0,.18); }
+.nav { height:72px; }
+.arc-reactor-logo { width:40px;height:40px;border-radius:13px;background:linear-gradient(145deg,#17264a,#10172b);border:1px solid rgba(147,197,253,.45);box-shadow:0 0 20px rgba(96,165,250,.12); }
+.arc-ring { border-style:solid;border-color:var(--reactor);box-shadow:0 0 12px var(--reactor-dim); }
+.brand-name { letter-spacing:-.025em; }
+.brand-name small { font-family:var(--font-mono);font-size:9px;color:#91a7cb;letter-spacing:.12em;margin-top:4px; }
+.links { gap:22px; }
+.links a:hover { text-shadow:none; }
+.btn { border-radius:999px;padding:10px 17px; }
+.btn-crimson { background:linear-gradient(135deg,#4f46e5,#3730a3);border:1px solid rgba(165,180,252,.38);box-shadow:0 7px 24px rgba(79,70,229,.18); }
+.btn-crimson:hover { background:linear-gradient(135deg,#6366f1,#4338ca);border-color:#a5b4fc;box-shadow:0 9px 28px rgba(99,102,241,.28); }
+.btn-reactor { background:rgba(96,165,250,.09);border-color:rgba(96,165,250,.4);box-shadow:none; }
+.btn-reactor:hover { background:var(--reactor);box-shadow:0 0 26px rgba(96,165,250,.2); }
+.btn-vr-toggle { background:rgba(139,92,246,.09);border-color:rgba(167,139,250,.32);box-shadow:none;font-family:var(--font-main);font-size:12px;letter-spacing:0; }
+.btn-vr-toggle:hover { background:rgba(139,92,246,.2);box-shadow:0 0 24px rgba(139,92,246,.15); }
+.hero { padding-top:118px;padding-bottom:76px; }
+.hud-pill { font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.25);box-shadow:none;color:#b8d8ff;border-radius:999px; }
+.pulse-dot { box-shadow:0 0 12px rgba(110,231,183,.55); }
+h1 { max-width:850px;font-size:clamp(42px,6.5vw,82px);letter-spacing:-.055em;line-height:1.04;margin-bottom:26px; }
+.glow-gold { background:linear-gradient(120deg,#e0e7ff,#93c5fd 55%,#a5b4fc);filter:none; }
+.glow-cyan { color:#93c5fd;text-shadow:0 0 28px rgba(96,165,250,.22); }
+.lead { max-width:720px;font-size:17px;color:#a8b5ca;line-height:1.8; }
+.chips-bar { gap:9px; }
+.chip,.chip-hot,.chip-vr { border-radius:999px;background:rgba(255,255,255,.035);border-color:rgba(148,163,184,.18);color:#b8c4d8;box-shadow:none;font-size:10px; }
+.chip-hot { background:rgba(96,165,250,.08);color:#bfdbfe;border-color:rgba(96,165,250,.26); }
+.chip-vr { background:rgba(139,92,246,.08);color:#ddd6fe;border-color:rgba(139,92,246,.22); }
+section { padding:58px 0; }
+.heading { margin-bottom:28px; }
+.eyebrow { font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;color:#9bb6e7;text-shadow:none; }
+.heading h2 { letter-spacing:-.04em;font-size:clamp(29px,4vw,43px); }
+.desc { color:#a0aec4; }
+.grid,.repo-grid { gap:18px; }
+.card,.repo-card,.panel,.skill,.contact-card { background:linear-gradient(145deg,rgba(15,23,42,.84),rgba(9,14,27,.88));border-color:rgba(148,163,184,.16);box-shadow:0 16px 42px rgba(0,0,0,.16);border-radius:18px; }
+.card { padding:26px; }
+.card:hover,.repo-card:hover { border-color:rgba(96,165,250,.55);box-shadow:0 18px 42px rgba(0,0,0,.24),0 0 25px rgba(96,165,250,.07); }
+.card-glare { background:radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(96,165,250,.12),transparent 62%); }
+.icon-box { background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.25);box-shadow:none; }
+.card-domain,.textlink { color:#b7c7ff; }
+.card-metric { background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.2);color:#bfdbfe;box-shadow:none; }
+.card-tech { color:#8797b1; }
+.panel { padding:30px;backdrop-filter:blur(18px); }
+.skill { border-radius:15px;padding:18px; }
+.skill:hover { border-color:rgba(96,165,250,.4);box-shadow:0 8px 25px rgba(96,165,250,.07); }
+.skill h3,.edu h3 { letter-spacing:-.02em; }
+.eduicon { background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.2);box-shadow:none; }
+.date { color:#b7c7ff; }
+.repo-card { min-height:220px; }
+.repo-meta { color:#8fa0b9; }
+.repo-empty { border-color:rgba(148,163,184,.25); }
+.contact-card { background:radial-gradient(circle at 100% 0%,rgba(96,165,250,.10),transparent 48%),linear-gradient(145deg,rgba(15,23,42,.92),rgba(9,14,27,.96));border:1px solid rgba(148,163,184,.2);box-shadow:0 18px 48px rgba(0,0,0,.2); }
+.supernova-overlay { background:rgba(3,7,17,.84); }
+.hologram-panel { background:linear-gradient(145deg,rgba(15,23,42,.98),rgba(7,11,20,.99));border:1px solid rgba(96,165,250,.5);box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 45px rgba(96,165,250,.10); }
+.hologram-panel::before,.hologram-panel::after { border-color:#a5b4fc; }
+.panel-eyebrow { color:#a5b4fc; }
+.telemetry-cell,.panel-blueprint { border-color:rgba(96,165,250,.25); }
+.telemetry-value { color:#bfdbfe; }
+.panel-close-btn { border-color:rgba(96,165,250,.28); }
+footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono); }
+#about-bot-launcher { background:linear-gradient(135deg,#4f46e5,#2563eb)!important;box-shadow:0 10px 32px rgba(37,99,235,.28)!important;border:1px solid rgba(191,219,254,.35)!important;border-radius:999px!important; }
+#about-bot { border:1px solid rgba(96,165,250,.25)!important;background:rgba(10,16,30,.97)!important;box-shadow:0 24px 70px rgba(0,0,0,.48)!important;border-radius:20px!important; }
+.bot-head { background:linear-gradient(120deg,rgba(79,70,229,.22),rgba(37,99,235,.12))!important; }
+.bot-suggestions button,.bot-compose input,.bot-compose button { border-radius:999px!important; }
+@media(max-width:900px) { .hero{padding-top:88px}.nav-actions .btn-vr-toggle{display:none} }
+@media(max-width:720px) { .nav{height:68px}.hero{padding-top:72px;padding-bottom:48px}.lead{font-size:16px}.panel,.contact-card{padding:23px}.nav-actions .btn{padding:9px 12px;font-size:12px} }
+
 </style>
 </head>
 <body class="intro-active">
@@ -1104,7 +1205,7 @@ footer {
 <!-- ==========================================================================
      CINEMATIC GLOWING VR HUD BOOT SEQUENCE
      ========================================================================== -->
-<div id="intro-curtain" role="dialog" aria-modal="true" aria-label="VR Cybernetic Boot Interface">
+<div id="intro-curtain" role="dialog" aria-modal="true" aria-label="Portfolio introduction">
   <div class="vr-grid-horizon"></div>
   <div class="intro-radar-sweep"></div>
 
@@ -1114,15 +1215,15 @@ footer {
     <div class="reactor-circle reactor-ring-mid"></div>
     <div class="reactor-circle reactor-ring-segments"></div>
     <div class="reactor-core-orb">
-      <span class="reactor-core-symbol">VR-7</span>
+      <span class="reactor-core-symbol">DH</span>
     </div>
   </div>
 
   <h2 class="intro-brand-title">DARSHAN <span>H V</span></h2>
   <div class="intro-sub">
-    <span>VR SPATIAL CORE: ONLINE</span>
+    <span>PORTFOLIO INTRO</span>
     <span>//</span>
-    <span style="color:var(--neon-green);">PORTFOLIO SYSTEM</span>
+    <span style="color:var(--neon-green);">DARSHAN H V</span>
   </div>
 
   <!-- Portfolio diagnostics console -->
@@ -1137,10 +1238,10 @@ footer {
 
   <div class="intro-action-row">
     <button class="btn btn-crimson" id="enterPortfolioBtn" style="padding:12px 28px; font-size:14px;">
-      Engage VR Matrix ⚡
+      Enter Portfolio ⚡
     </button>
     <button class="btn btn-vr-toggle" id="skipIntroBtn" style="padding:12px 22px; font-size:14px;">
-      Skip Calibration ⏭
+      Skip Intro
     </button>
   </div>
 </div>
@@ -1151,12 +1252,12 @@ footer {
 
 <!-- Side HUD Telemetry Tracker -->
 <aside class="side-hud" aria-label="Orbital scroll tracker">
-  <a href="#home" class="hud-dot-link active" data-label="VR Core"></a>
+  <a href="#home" class="hud-dot-link active" data-label="Home"></a>
   <a href="#projects" class="hud-dot-link" data-label="Systems"></a>
-  <a href="#github-projects" class="hud-dot-link" data-label="Telemetry"></a>
-  <a href="#about" class="hud-dot-link" data-label="Dossier"></a>
-  <a href="#skills" class="hud-dot-link" data-label="Arsenal"></a>
-  <a href="#contact" class="hud-dot-link" data-label="Transmission"></a>
+  <a href="#projects" class="hud-dot-link" data-label="Telemetry"></a>
+  <a href="#about" class="hud-dot-link" data-label="About"></a>
+  <a href="#skills" class="hud-dot-link" data-label="Skills"></a>
+  <a href="#contact" class="hud-dot-link" data-label="Contact"></a>
 </aside>
 
 <!-- Top Navigation -->
@@ -1165,18 +1266,18 @@ footer {
     <div class="arc-reactor-logo" id="arcTrigger" title="Detonate Supernova Shockwave">
       <div class="arc-ring"></div>
     </div>
-    <div class="brand-name">DARSHAN H V<small>AI / ML & VR SPATIAL SYSTEMS</small></div>
+    <div class="brand-name">DARSHAN H V<small>AI / ML · SOFTWARE</small></div>
   </a>
   <button class="menu-btn" id="menu" aria-label="Toggle navigation">☰</button>
   <nav class="links" id="links">
-    <a href="#projects">Systems</a>
-    <a href="#github-projects">Repositories</a>
-    <a href="#about">Bio</a>
-    <a href="#skills">Telemetry</a>
+    <a href="#projects">Projects</a>
+    <a href="#projects">Repositories</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
     <a href="#contact">Contact</a>
   </nav>
   <div class="nav-actions">
-    <button class="btn btn-vr-toggle" id="vrPulseBtn" type="button">⚡ Visual Pulse</button>
+    <button class="btn btn-vr-toggle" id="vrPulseBtn" type="button">✦ Visual Effects</button>
     <a class="btn btn-crimson" href="https://github.com/darshanhv296" target="_blank" rel="noopener noreferrer">⌘ GitHub</a>
     <a class="btn btn-reactor" href="https://www.linkedin.com/in/darshanhv296" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
   </div>
@@ -1187,34 +1288,34 @@ footer {
   <section class="wrap hero" id="home">
     <div class="hud-pill">
       <span class="pulse-dot"></span>
-      PES UNIVERSITY // VR & AIML SPATIAL NODES
+      COMPUTER SCIENCE · AI / ML
     </div>
-    <h1>Architecting <span class="glow-gold">Autonomous AI</span> & Scalable <span class="glow-cyan">VR Distributed Nodes.</span></h1>
-    <p class="lead">Computer Science (AIML) engineer with a mechanical background building interactive neural systems, distributed network engines, real-time edge robotics, and immersive 3D spatial computing environments.</p>
+    <h1>Building <span class="glow-gold">AI & Software</span> for real-world problems.</h1>
+    <p class="lead">I’m Darshan H V, a Computer Science student specializing in AI and Machine Learning at PES University, with a diploma background in Mechanical Engineering. I build practical projects across machine learning, software, IoT, and engineering design.</p>
     
     <div class="actions">
       <a class="btn btn-crimson" href="#projects">Explore Projects ↘</a>
-      <a class="btn btn-reactor" href="https://www.linkedin.com/in/darshanhv296" target="_blank" rel="noopener noreferrer">LinkedIn Frequency ↗</a>
-      <button class="btn btn-vr-toggle" id="replayIntroBtn" type="button">↻ Replay Intro Animation</button>
+      <a class="btn btn-reactor" href="https://www.linkedin.com/in/darshanhv296" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      <button class="btn btn-vr-toggle" id="replayIntroBtn" type="button">↻ Replay Intro</button>
     </div>
 
     <div class="chips-bar">
       <span class="chip chip-hot">PYTORCH</span>
-      <span class="chip chip-vr">3D VR HOLOGRAMS</span>
+      <span class="chip chip-vr">3D VISUALIZATION</span>
       <span class="chip">TRANSFORMERS</span>
       <span class="chip">FLASK</span>
       <span class="chip">MYSQL</span>
       <span class="chip">ESP32 / IOT</span>
-      <span class="chip chip-hot">SUPERNOVA ENGINE v3</span>
+      <span class="chip chip-hot">GITHUB PROJECTS</span>
     </div>
   </section>
 
   <!-- Live GitHub Projects (no hardcoded project cards) -->
   <section class="wrap" id="projects">
     <div class="heading">
-      <p class="eyebrow">02 // LIVE PROJECT FEED</p>
+      <p class="eyebrow">PROJECTS · GITHUB LIVE</p>
       <h2>Projects from GitHub</h2>
-      <p class="desc">Public repositories are fetched directly from GitHub when this page loads. New public repositories appear automatically; select a card to inspect its repository details.</p>
+      <p class="desc">Live list of public repositories from GitHub. Select a project to view its repository details.</p>
     </div>
     <div class="repo-toolbar">
       <span class="repo-status" id="repoStatus">Connecting to GitHub...</span>
@@ -1228,21 +1329,21 @@ footer {
   <!-- About / Bio -->
   <section class="wrap" id="about">
     <div class="heading">
-      <p class="eyebrow">03 // ABOUT</p>
-      <h2>Curious by nature. Engineering-minded by design.</h2>
+      <p class="eyebrow">ABOUT ME</p>
+      <h2>About me</h2>
     </div>
     <div class="aboutgrid">
       <div class="panel">
-        <p class="desc" style="margin-top:0;">I am a Computer Science student specializing in Artificial Intelligence and Machine Learning at PES University, backed by an earlier diploma in Mechanical Engineering. This hybrid background enables me to design intelligence for the physical world—where mechanical forces, thermal constraints, and edge hardware intersect with neural networks.</p>
-        <p class="desc">Whether diagnosing fuel calibration on small internal combustion engines or tuning graph attention networks for spatiotemporal air quality imputation, I operate on first-principles debugging, clean systems code, and measurable performance benchmarks.</p>
+        <p class="desc" style="margin-top:0;">I’m studying Computer Science and Engineering (AIML) at PES University in Bengaluru. Before this degree, I completed a Diploma in Mechanical Engineering. I’m interested in applying software and machine learning to practical engineering problems.</p>
+        <p class="desc">My project work includes AI/ML experiments, smart farming and irrigation, LAN file sharing, and structural design tools. I focus on building, testing, and improving working systems.</p>
       </div>
       <div class="panel">
-        <div class="eyebrow" style="margin-bottom:12px;">PRIMARY DIRECTIVES</div>
+        <div class="eyebrow" style="margin-bottom:12px;">FOCUS AREAS</div>
         <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-size:13.5px; color:var(--muted);">
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Applied Machine Learning:</strong> Model evaluation, fairness auditing, and predictive pipelines.</li>
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Distributed Systems:</strong> UDP autodiscovery, high-throughput TCP socket streaming.</li>
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Hardware & Robotics:</strong> ESP32, sensor telemetry, and automation actuators.</li>
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Spatial Computing:</strong> WebGL 3D immersion, VR reticle tracking, and real-time GPU simulations.</li>
+          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Applied Machine Learning:</strong> Model experimentation, evaluation, and predictive pipelines.</li>
+          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Software:</strong> Python, Flask, JavaScript, SQL, Git and GitHub.</li>
+          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">IoT & Smart Farming:</strong> Sensor-based monitoring and irrigation projects.</li>
+          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Engineering Design:</strong> Structural design tools and 3D visualization.</li>
         </ul>
       </div>
     </div>
@@ -1251,7 +1352,7 @@ footer {
   <!-- Education -->
   <section class="wrap" id="education">
     <div class="heading">
-      <p class="eyebrow">05 // ACADEMIC ACCREDITATION</p>
+      <p class="eyebrow">EDUCATION</p>
       <h2>Academic Foundation</h2>
     </div>
     <div class="panel">
@@ -1279,8 +1380,8 @@ footer {
   <!-- Skills Taxonomy -->
   <section class="wrap" id="skills">
     <div class="heading">
-      <p class="eyebrow">06 // WEAPONS & TELEMETRY</p>
-      <h2>Technical Arsenal</h2>
+      <p class="eyebrow">SKILLS</p>
+      <h2>Technical skills</h2>
       <p class="desc">Tools and technologies leveraged across my research, robotics, and software deployments.</p>
     </div>
     <div class="skillgrid">
@@ -1320,12 +1421,12 @@ footer {
   <!-- Contact Section -->
   <section class="wrap" id="contact">
     <div class="contact-card">
-      <p class="eyebrow">07 // ESTABLISH SECURE LINK</p>
-      <h2>Ready to assemble something <span class="glow-gold">extraordinary.</span></h2>
+      <p class="eyebrow">CONTACT</p>
+      <h2>Let’s build something <span class="glow-gold">useful.</span></h2>
       <p class="lead" style="margin-bottom:26px;">I am open to AI/ML research collaborations, software engineering roles, and high-impact engineering projects.</p>
       <div class="actions">
         <a class="btn btn-crimson" href="mailto:darshanhv296@gmail.com">Email Darshan ↗</a>
-        <a class="btn btn-reactor" href="https://www.linkedin.com/in/darshanhv296" target="_blank" rel="noopener noreferrer">LinkedIn Frequency ↗</a>
+        <a class="btn btn-reactor" href="https://www.linkedin.com/in/darshanhv296" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
         <a class="btn" href="https://github.com/darshanhv296" target="_blank" rel="noopener noreferrer">Inspect Repositories ⌘</a>
       </div>
       <p style="font-size:12px; color:var(--muted); font-family:var(--font-mono); margin-top:20px;">Direct channel: darshanhv296@gmail.com // Bengaluru, India</p>
@@ -1333,11 +1434,34 @@ footer {
   </section>
 </main>
 
+
+<!-- Local portfolio assistant: answers from the information shown on this page -->
+<button id="about-bot-launcher" type="button" aria-controls="about-bot" aria-expanded="false">✦ Ask about Darshan</button>
+<section id="about-bot" aria-label="Ask about Darshan" role="dialog" aria-modal="false">
+  <div class="bot-head">
+    <div><strong>Portfolio Assistant</strong><small>Answers questions about Darshan and his projects</small></div>
+    <button id="about-bot-close" type="button" aria-label="Close assistant">✕</button>
+  </div>
+  <div class="bot-suggestions">
+    <button type="button" data-question="Tell me about Darshan">About Darshan</button>
+    <button type="button" data-question="What projects has he built?">Projects</button>
+    <button type="button" data-question="What are his technical skills?">Skills</button>
+    <button type="button" data-question="How can I contact him?">Contact</button>
+  </div>
+  <div id="bot-messages" aria-live="polite">
+    <div class="bot-msg bot">Hi! I can answer questions about Darshan’s background, skills, education, and the projects listed on this portfolio. What would you like to know?</div>
+  </div>
+  <form class="bot-compose" id="bot-form">
+    <input id="bot-input" type="text" maxlength="500" placeholder="Ask about Darshan..." autocomplete="off" aria-label="Your question">
+    <button id="bot-send" type="submit">Send</button>
+  </form>
+</section>
+
 <!-- Footer -->
 <footer>
   <div class="wrap foot">
-    <span>© 2026 Darshan H V // AI & Software Portfolio</span>
-    <span>Powered by HTML5, CSS3, ES6 & Three.js WebGL</span>
+    <span>© 2026 Darshan H V · Portfolio</span>
+    <span>Built with HTML, CSS, JavaScript & Three.js</span>
   </div>
 </footer>
 
@@ -1820,8 +1944,8 @@ const vrPulseBtn = document.getElementById("vrPulseBtn");
 
 const bootSteps = [
   { progress: 20, text: "[PORTFOLIO] Initializing visual effects..." },
-  { progress: 45, text: "[PORTFOLIO] Preparing interactive 3D scene..." },
-  { progress: 70, text: "[PORTFOLIO] Loading 3D visual elements..." },
+  { progress: 45, text: "[PORTFOLIO] Preparing interactive portfolio..." },
+  { progress: 70, text: "[PORTFOLIO] Loading project information..." },
   { progress: 90, text: "[PORTFOLIO] Connecting to live GitHub repositories..." },
   { progress: 100, text: "[ONLINE] Portfolio ready. Welcome to Darshan’s engineering portfolio." }
 ];
@@ -1876,6 +2000,10 @@ vrPulseBtn.addEventListener("click", e => {
 // Launch Boot sequence on initial page load
 window.addEventListener("load", () => {
   runBootSequence();
+  // Let visitors see the intro, then open the portfolio automatically.
+  setTimeout(() => {
+    if (!introCurtain.classList.contains("hidden")) dismissIntro();
+  }, 3200);
 });
 
 /* ==========================================================================
@@ -2105,6 +2233,81 @@ document.getElementById("arcTrigger").addEventListener("click", e => {
 // Mobile Menu Toggle
 document.getElementById("menu").onclick = () => document.getElementById("links").classList.toggle("open");
 document.querySelectorAll("#links a").forEach(a => a.addEventListener("click", () => document.getElementById("links").classList.remove("open")));
+
+/* Simple client-side portfolio Q&A. No external AI API or fabricated claims. */
+(() => {
+  const launcher = document.getElementById('about-bot-launcher');
+  const panel = document.getElementById('about-bot');
+  const close = document.getElementById('about-bot-close');
+  const form = document.getElementById('bot-form');
+  const input = document.getElementById('bot-input');
+  const messages = document.getElementById('bot-messages');
+
+  function toggleBot(open) {
+    panel.classList.toggle('open', open);
+    launcher.setAttribute('aria-expanded', String(open));
+    if (open) input.focus();
+  }
+  function addMessage(text, who) {
+    const el = document.createElement('div');
+    el.className = `bot-msg ${who}`;
+    el.textContent = text;
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+  }
+  function answer(question) {
+    const q = question.toLowerCase();
+    if (/who is darshan|about darshan|tell me about|about him|background|bio/.test(q)) {
+      return 'Darshan H V is a Computer Science and Engineering student specializing in AI and Machine Learning at PES University, Bengaluru. He previously completed a Diploma in Mechanical Engineering. His interests include applied ML, software development, IoT, and engineering-focused projects.';
+    }
+    if (/education|degree|college|university|study|studying|diploma/.test(q)) {
+      return 'Darshan is pursuing a B.Tech in Computer Science and Engineering (AIML) at PES University, Bengaluru (2024–present). He has also completed a Diploma in Mechanical Engineering.';
+    }
+    if (/project|built|work|portfolio|github|repository|repos/.test(q)) {
+      return 'The portfolio loads public repositories live from GitHub. Current project themes include FairPrompt and ML experimentation, smart farming and irrigation, ARC FLASH LAN file sharing, and ARC STRUCTURE / truss-design tooling. Open the Projects section to see the latest public repository list and click a repository for its details.';
+    }
+    if (/skill|technology|tech stack|programming|language|tools/.test(q)) {
+      return 'Technologies and areas shown on this portfolio include Python, machine learning, PyTorch, Flask, JavaScript, MySQL, Git/GitHub, IoT sensors, and Android development. The exact tools vary by project.';
+    }
+    if (/career|job|role|opportunit|hire|internship/.test(q)) {
+      return 'Darshan’s stated interests include AI/ML research, software engineering, and practical engineering projects. For opportunities, contact him directly using the email or LinkedIn links on this page.';
+    }
+    if (/contact|email|linkedin|reach/.test(q)) {
+      return 'Email: darshanhv296@gmail.com\\nLinkedIn: linkedin.com/in/darshanhv296\\nGitHub: github.com/darshanhv296';
+    }
+    if (/location|where|based|city/.test(q)) {
+      return 'The portfolio lists Bengaluru, India, and PES University, Bengaluru.';
+    }
+    if (/truss|structure|arc structure/.test(q)) {
+      return 'ARC STRUCTURE is part of Darshan’s engineering project work around structural/truss design tools and 3D visualization. Please open its GitHub repository for the most accurate implementation details.';
+    }
+    if (/irrigation|farm|krushi|iot|sensor/.test(q)) {
+      return 'His smart-farming project explores sensor-based monitoring and intelligent irrigation, combining IoT readings with machine-learning workflows. Check the related repository for current implementation details.';
+    }
+    if (/arc flash|file shar|lan/.test(q)) {
+      return 'ARC FLASH is a local-network file-sharing project focused on transfers between mobile devices and computers. The repository provides the current features and technical implementation.';
+    }
+    if (/ai|machine learning|ml model/.test(q)) {
+      return 'Darshan works on applied machine learning and model experimentation. The portfolio links to his public repositories, where you can inspect the datasets, code, and results available for each project.';
+    }
+    return 'I can answer about Darshan’s background, education, skills, project themes, and contact links. Try asking “Tell me about Darshan”, “What projects has he built?”, or “How can I contact him?”';
+  }
+  function ask(question) {
+    const q = question.trim();
+    if (!q) return;
+    addMessage(q, 'user');
+    addMessage(answer(q), 'bot');
+  }
+  launcher.addEventListener('click', () => toggleBot(!panel.classList.contains('open')));
+  close.addEventListener('click', () => toggleBot(false));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    ask(input.value);
+    input.value = '';
+  });
+  panel.querySelectorAll('[data-question]').forEach(btn => btn.addEventListener('click', () => ask(btn.dataset.question)));
+})();
+
 </script>
 </body>
 </html>
