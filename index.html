@@ -796,6 +796,31 @@ section { padding: 55px 0; }
   font-family: var(--font-mono);
 }
 
+
+/* About section motion: restrained, responsive, and accessible */
+.about-animated .panel{position:relative;overflow:hidden;isolation:isolate;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+.about-animated .panel::before{content:"";position:absolute;inset:-1px;z-index:-1;pointer-events:none;background:radial-gradient(circle at var(--glow-x,50%) var(--glow-y,0%),rgba(0,242,254,.12),transparent 42%);opacity:.7;transition:opacity .3s ease}
+.about-animated .panel:hover{transform:translateY(-4px);border-color:rgba(0,242,254,.42);box-shadow:0 18px 48px rgba(0,0,0,.35),0 0 26px rgba(0,242,254,.07)}
+.about-kicker{display:flex;align-items:center;gap:9px;color:#a9c9e9;font:700 11px var(--font-mono);letter-spacing:.13em}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#55e6bd;box-shadow:0 0 0 0 rgba(85,230,189,.55);animation:aboutDotPulse 2s infinite}
+@keyframes aboutDotPulse{0%{box-shadow:0 0 0 0 rgba(85,230,189,.5)}70%{box-shadow:0 0 0 8px rgba(85,230,189,0)}100%{box-shadow:0 0 0 0 rgba(85,230,189,0)}}
+.about-copy{line-height:1.85;margin-bottom:14px}
+.about-traits{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);font:700 11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase}
+.about-traits span{padding:8px 11px;border:1px solid rgba(0,242,254,.18);border-radius:999px;background:rgba(0,242,254,.04);color:#cfe9ff;transition:background .25s ease,transform .25s ease}
+.about-traits span:hover{background:rgba(0,242,254,.12);transform:translateY(-2px)}
+.about-traits i{font-style:normal;color:var(--reactor-bright)}
+.focus-list{list-style:none;display:flex;flex-direction:column;gap:18px;padding:0;margin:0}
+.focus-list li{display:grid;grid-template-columns:34px 1fr;gap:11px;align-items:start;transition:transform .25s ease}
+.focus-list li:hover{transform:translateX(4px)}
+.focus-icon{display:grid;place-items:center;width:30px;height:30px;border:1px solid rgba(0,242,254,.2);border-radius:9px;color:#8fdcff;background:rgba(0,242,254,.06);font:700 10px var(--font-mono)}
+.focus-list strong{display:block;color:#f2f6ff;font-size:13px;margin:2px 0 5px}
+.focus-list span:not(.focus-icon){display:block;color:var(--muted);font-size:12.5px;line-height:1.65}
+.reveal-card{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1),border-color .35s ease,box-shadow .35s ease}
+.reveal-card.is-visible{opacity:1;transform:translateY(0)}
+.about-focus.reveal-card{transition-delay:.12s}
+@media(max-width:900px){.about-focus.reveal-card{transition-delay:0s}}
+@media(prefers-reduced-motion:reduce){.live-dot{animation:none}.reveal-card{opacity:1;transform:none;transition:none}.about-animated .panel,.focus-list li,.about-traits span{transition:none}}
+
 /* Education Layout */
 .edu {
   display: grid;
@@ -1149,7 +1174,7 @@ body { background: radial-gradient(ellipse at 50% -20%,rgba(59,76,150,.20),trans
 .hud-pill { font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;background:rgba(96,165,250,.07);border-color:rgba(96,165,250,.25);box-shadow:none;color:#b8d8ff;border-radius:999px; }
 .pulse-dot { box-shadow:0 0 12px rgba(110,231,183,.55); }
 h1 { max-width:850px;font-size:clamp(42px,6.5vw,82px);letter-spacing:-.055em;line-height:1.04;margin-bottom:26px; }
-.glow-gold { background:linear-gradient(120deg,#e0e7ff,#93c5fd 55%,#a5b4fc);filter:none; }
+.glow-gold { background:none !important; color:#93c5fd !important; -webkit-text-fill-color:#93c5fd !important; -webkit-background-clip:border-box !important; background-clip:border-box !important; filter:none !important; text-shadow:0 0 22px rgba(96,165,250,.22); }
 .glow-cyan { color:#93c5fd;text-shadow:0 0 28px rgba(96,165,250,.22); }
 .lead { max-width:720px;font-size:17px;color:#a8b5ca;line-height:1.8; }
 .chips-bar { gap:9px; }
@@ -1195,6 +1220,59 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
 @media(max-width:900px) { .hero{padding-top:88px}.nav-actions .btn-vr-toggle{display:none} }
 @media(max-width:720px) { .nav{height:68px}.hero{padding-top:72px;padding-bottom:48px}.lead{font-size:16px}.panel,.contact-card{padding:23px}.nav-actions .btn{padding:9px 12px;font-size:12px} }
 
+
+/* Portfolio polish: progress, navigation state, and gentle reveal effects */
+.page-progress{position:fixed;inset:0 auto auto 0;height:3px;width:0;z-index:9999;background:linear-gradient(90deg,#35e7d4,#65a8ff,#a879ff);box-shadow:0 0 14px rgba(53,231,212,.5);transition:width .08s linear;pointer-events:none}
+.back-to-top{position:fixed;right:24px;bottom:94px;z-index:80;width:44px;height:44px;border-radius:14px;border:1px solid rgba(105,178,255,.38);background:rgba(8,15,30,.82);backdrop-filter:blur(14px);color:#eef7ff;font-size:22px;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s ease,transform .25s ease,background .25s ease,border-color .25s ease}
+.back-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:rgba(35,75,125,.9);border-color:rgba(75,220,255,.8);transform:translateY(-3px)}
+.top .links a{position:relative;transition:color .2s ease}
+.top .links a::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:2px;border-radius:2px;background:linear-gradient(90deg,#39e6d5,#72a9ff);transform:scaleX(0);transform-origin:left;transition:transform .22s ease}
+.top .links a:hover::after,.top .links a.active::after{transform:scaleX(1)}
+.top .links a.active{color:#f3f8ff}
+section:not(#about-bot) .heading,.repo-card,.skill,.contact-card,.edu{transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1),border-color .25s ease,box-shadow .25s ease}
+.motion-ready section:not(#home):not(#about-bot) .heading,.motion-ready .repo-card,.motion-ready .skill,.motion-ready .contact-card,.motion-ready .edu{opacity:0;transform:translateY(14px)}
+.motion-ready .in-view{opacity:1!important;transform:translateY(0)!important}
+.repo-card:hover,.skill:hover{box-shadow:0 14px 36px rgba(0,0,0,.2),0 0 22px rgba(54,206,255,.07)}
+@media(max-width:640px){.back-to-top{right:16px;bottom:86px;width:40px;height:40px;border-radius:12px}.page-progress{height:2px}}
+@media(prefers-reduced-motion:reduce){.back-to-top,.top .links a,.top .links a::after,section:not(#about-bot) .heading,.repo-card,.skill,.contact-card,.edu{transition:none!important}.motion-ready section:not(#home):not(#about-bot) .heading,.motion-ready .repo-card,.motion-ready .skill,.motion-ready .contact-card,.motion-ready .edu{opacity:1;transform:none}}
+</style>
+
+<style id="hero-heading-fix">
+/* Fix: prevent the highlighted hero phrase from rendering as a solid rectangle. */
+.hero h1 .glow-gold {
+  display: inline;
+  background: none !important;
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  filter: none !important;
+  text-shadow: 0 0 22px rgba(96,165,250,.2);
+  overflow-wrap: anywhere;
+}
+.hero h1 { position: relative; z-index: 2; }
+@media (max-width: 600px) {
+  .hero { padding-top: 76px; }
+  .hero h1 { font-size: clamp(36px, 9vw, 54px); line-height: 1.08; max-width: 100%; }
+  .hero .lead { font-size: 15px; }
+}
+</style>
+<style>
+
+/* Subtle portfolio polish: readable copy and restrained motion */
+.about-copy { max-width: 62ch; line-height: 1.8; }
+.focus-list li { display:flex; flex-wrap:wrap; gap:7px; align-items:baseline; }
+.focus-list li strong { color:#f4f7ff; font-weight:700; }
+.focus-list li span { color:var(--muted); }
+.skill-reveal { position:relative; overflow:hidden; transition:transform .28s ease, border-color .28s ease, box-shadow .28s ease; }
+.skill-reveal::after { content:""; position:absolute; inset:-1px; pointer-events:none; opacity:0; background:linear-gradient(115deg,transparent 25%,rgba(92,220,255,.07) 48%,transparent 68%); transform:translateX(-100%); transition:transform .65s ease, opacity .3s ease; }
+.skill-reveal:hover { transform:translateY(-4px); border-color:rgba(80,210,255,.38); box-shadow:0 12px 32px rgba(0,0,0,.18),0 0 22px rgba(40,190,255,.07); }
+.skill-reveal:hover::after { opacity:1; transform:translateX(100%); }
+@media (prefers-reduced-motion: reduce) {
+  .skill-reveal, .skill-reveal::after { transition:none !important; }
+  .skill-reveal:hover { transform:none; }
+}
 </style>
 </head>
 <body class="intro-active">
@@ -1210,18 +1288,18 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
   <div class="intro-radar-sweep"></div>
 
   <!-- Rotating Arc Reactor & VR Gyroscope Core -->
-  <div class="intro-reactor-container" id="introReactorClick" title="Detonate Core Shockwave">
+  <div class="intro-reactor-container" id="introReactorClick" title="Activate 296 Core">
     <div class="reactor-circle reactor-ring-outer"></div>
     <div class="reactor-circle reactor-ring-mid"></div>
     <div class="reactor-circle reactor-ring-segments"></div>
     <div class="reactor-core-orb">
-      <span class="reactor-core-symbol">DH</span>
+      <span class="reactor-core-symbol">296</span>
     </div>
   </div>
 
   <h2 class="intro-brand-title">DARSHAN <span>H V</span></h2>
   <div class="intro-sub">
-    <span>PORTFOLIO INTRO</span>
+    <span>296 PORTFOLIO SYSTEM</span>
     <span>//</span>
     <span style="color:var(--neon-green);">DARSHAN H V</span>
   </div>
@@ -1332,18 +1410,21 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
       <p class="eyebrow">ABOUT ME</p>
       <h2>About me</h2>
     </div>
-    <div class="aboutgrid">
-      <div class="panel">
-        <p class="desc" style="margin-top:0;">I’m studying Computer Science and Engineering (AIML) at PES University in Bengaluru. Before this degree, I completed a Diploma in Mechanical Engineering. I’m interested in applying software and machine learning to practical engineering problems.</p>
-        <p class="desc">My project work includes AI/ML experiments, smart farming and irrigation, LAN file sharing, and structural design tools. I focus on building, testing, and improving working systems.</p>
+    <div class="aboutgrid about-animated">
+      <div class="panel about-story reveal-card">
+        <div class="about-kicker"><span class="live-dot"></span> A LITTLE ABOUT ME</div>
+        <p class="desc about-copy" style="margin-top:14px;">I’m Darshan H V, a Computer Science and Engineering student focused on AI and Machine Learning at PES University, Bengaluru. I also bring a Mechanical Engineering diploma background, which shapes how I approach practical, real-world problems.</p>
+        <p class="desc about-copy">I learn best by building things. My work spans machine-learning experiments, Python and web applications, smart-farming and IoT systems, and engineering design tools. I like understanding how each part works, testing it, and improving it until it becomes useful.</p>
+        <p class="desc about-copy">I’m continuing to grow as a developer by exploring new tools, working through technical challenges, and turning ideas into working projects. I’m especially interested in projects where software and engineering meet.</p>
+        <div class="about-traits"><span>Build</span><i>→</i><span>Test</span><i>→</i><span>Improve</span></div>
       </div>
-      <div class="panel">
-        <div class="eyebrow" style="margin-bottom:12px;">FOCUS AREAS</div>
-        <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-size:13.5px; color:var(--muted);">
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Applied Machine Learning:</strong> Model experimentation, evaluation, and predictive pipelines.</li>
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Software:</strong> Python, Flask, JavaScript, SQL, Git and GitHub.</li>
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">IoT & Smart Farming:</strong> Sensor-based monitoring and irrigation projects.</li>
-          <li style="display:flex; gap:8px;">▹ <strong style="color:#fff;">Engineering Design:</strong> Structural design tools and 3D visualization.</li>
+      <div class="panel about-focus reveal-card">
+        <div class="eyebrow" style="margin-bottom:16px;">WHAT I WORK ON</div>
+        <ul class="focus-list">
+          <li><span class="focus-icon">01</span><div><strong>AI & machine learning</strong><span>Experimenting with models, prediction tasks, and evaluation.</span></div></li>
+          <li><span class="focus-icon">02</span><div><strong>Software development</strong><span>Building Python tools, web interfaces, APIs, and database-backed apps.</span></div></li>
+          <li><span class="focus-icon">03</span><div><strong>IoT & smart farming</strong><span>Connecting sensor readings with monitoring and irrigation workflows.</span></div></li>
+          <li><span class="focus-icon">04</span><div><strong>Engineering design</strong><span>Creating practical design tools with calculations, material estimates, and 3D views.</span></div></li>
         </ul>
       </div>
     </div>
@@ -1361,7 +1442,7 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
         <div>
           <h3>B.Tech — Computer Science & Engineering (AIML)</h3>
           <p>PES University, Bengaluru</p>
-          <p style="font-size:12px; color:var(--muted);">Specialization: Neural Architectures, Distributed Cloud Computing, Algorithm Design.</p>
+          <p style="font-size:12px; color:var(--muted);">Studying Computer Science with an AI and Machine Learning focus.</p>
         </div>
         <span class="date">2024 – PRESENT</span>
       </div>
@@ -1370,7 +1451,7 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
         <div>
           <h3>Diploma — Mechanical Engineering</h3>
           <p>Department of Technical Education, Karnataka</p>
-          <p style="font-size:12px; color:var(--muted);">Foundation: Applied Mechanics, Thermal Engineering, Machine Drawing, Kinematics.</p>
+          <p style="font-size:12px; color:var(--muted);">Earlier technical education in mechanical engineering.</p>
         </div>
         <span class="date">COMPLETED</span>
       </div>
@@ -1382,38 +1463,33 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
     <div class="heading">
       <p class="eyebrow">SKILLS</p>
       <h2>Technical skills</h2>
-      <p class="desc">Tools and technologies leveraged across my research, robotics, and software deployments.</p>
+      <p class="desc">Tools and technologies I use across my projects.</p>
     </div>
     <div class="skillgrid">
-      <article class="skill">
+      <article class="skill skill-reveal">
         <span style="font-size:22px;">🧠</span>
-        <h3>Deep Learning & Frameworks</h3>
-        <p>PyTorch · Hugging Face · Transformers · CatBoost · XGBoost · Scikit-learn</p>
+        <h3>Python & Machine Learning</h3>
+        <p>Python · Scikit-learn · PyTorch · XGBoost · Model evaluation</p>
       </article>
-      <article class="skill">
+      <article class="skill skill-reveal">
         <span style="font-size:22px;">⚡</span>
-        <h3>Systems & Languages</h3>
-        <p>Python · JavaScript · SQL · HTML · CSS</p>
+        <h3>Web & Backend</h3>
+        <p>HTML · CSS · JavaScript · Flask · REST APIs</p>
       </article>
-      <article class="skill">
-        <span style="font-size:22px;">🤖</span>
-        <h3>Robotics & Spatial Computing</h3>
-        <p>Sensor integration · Three.js · ESP32 · IoT prototyping · OpenCV</p>
+      <article class="skill skill-reveal">
+        <span style="font-size:22px;">🗄️</span>
+        <h3>Data & Tools</h3>
+        <p>MySQL · SQL · Git · GitHub</p>
       </article>
-      <article class="skill">
-        <span style="font-size:22px;">📡</span>
-        <h3>Edge IoT & Embedded</h3>
-        <p>ESP32 · FreeRTOS · Sockets (TCP/UDP) · Capacitive Sensors · Arduino</p>
+      <article class="skill skill-reveal">
+        <span style="font-size:22px;">🌱</span>
+        <h3>IoT & Smart Farming</h3>
+        <p>Sensor integration · Arduino / ESP32 projects · Monitoring and irrigation</p>
       </article>
-      <article class="skill">
-        <span style="font-size:22px;">☁️</span>
-        <h3>Cloud & Architecture</h3>
-        <p>Flask · Express · MySQL · Docker · Git / GitHub Actions · Vercel</p>
-      </article>
-      <article class="skill">
-        <span style="font-size:22px;">📱</span>
-        <h3>Mobile Engineering</h3>
-        <p>Jetpack Compose · Android SDK · Coroutines · StateFlow</p>
+      <article class="skill skill-reveal">
+        <span style="font-size:22px;">📐</span>
+        <h3>Engineering Projects</h3>
+        <p>Design rules · Material estimation · 3D visualization</p>
       </article>
     </div>
   </section>
@@ -1423,7 +1499,7 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
     <div class="contact-card">
       <p class="eyebrow">CONTACT</p>
       <h2>Let’s build something <span class="glow-gold">useful.</span></h2>
-      <p class="lead" style="margin-bottom:26px;">I am open to AI/ML research collaborations, software engineering roles, and high-impact engineering projects.</p>
+      <p class="lead" style="margin-bottom:26px;">I’m interested in AI/ML and software projects where I can keep learning and build useful things.</p>
       <div class="actions">
         <a class="btn btn-crimson" href="mailto:darshanhv296@gmail.com">Email Darshan ↗</a>
         <a class="btn btn-reactor" href="https://www.linkedin.com/in/darshanhv296" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
@@ -1439,7 +1515,7 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
 <button id="about-bot-launcher" type="button" aria-controls="about-bot" aria-expanded="false">✦ Ask about Darshan</button>
 <section id="about-bot" aria-label="Ask about Darshan" role="dialog" aria-modal="false">
   <div class="bot-head">
-    <div><strong>Portfolio Assistant</strong><small>Answers questions about Darshan and his projects</small></div>
+    <div><strong>296 Portfolio Assistant</strong><small>Grounded answers from portfolio & public GitHub data</small></div>
     <button id="about-bot-close" type="button" aria-label="Close assistant">✕</button>
   </div>
   <div class="bot-suggestions">
@@ -1449,13 +1525,15 @@ footer { border-top:1px solid rgba(148,163,184,.12);font-family:var(--font-mono)
     <button type="button" data-question="How can I contact him?">Contact</button>
   </div>
   <div id="bot-messages" aria-live="polite">
-    <div class="bot-msg bot">Hi! I can answer questions about Darshan’s background, skills, education, and the projects listed on this portfolio. What would you like to know?</div>
+    <div class="bot-msg bot">Hi! I’m the 296 Portfolio Assistant. I use information on this page and public GitHub repository metadata to answer. Ask about a specific project, its language, purpose, skills, or how to contact Darshan. If I can’t verify a detail, I’ll say so.</div>
   </div>
   <form class="bot-compose" id="bot-form">
-    <input id="bot-input" type="text" maxlength="500" placeholder="Ask about Darshan..." autocomplete="off" aria-label="Your question">
+    <input id="bot-input" type="text" maxlength="500" placeholder="Ask about a project, skill, or experience..." autocomplete="off" aria-label="Your question">
     <button id="bot-send" type="submit">Send</button>
   </form>
 </section>
+
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top" title="Back to top">↑</button>
 
 <!-- Footer -->
 <footer>
@@ -2060,6 +2138,8 @@ const escapeHTML = str => String(str || '').replace(/[&<>"']/g, c => ({
    Every public repository is loaded from GitHub; no project list is hardcoded.
    ========================================================================== */
 const githubUsername = "darshanhv296";
+window.portfolioRepos = [];
+window.portfolioReadmes = {};
 const repoGrid = document.getElementById("repoGrid");
 const repoStatus = document.getElementById("repoStatus");
 const refreshReposBtn = document.getElementById("refreshRepos");
@@ -2090,6 +2170,8 @@ async function loadGitHubRepositories() {
     }
 
     repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    window.portfolioRepos = repos;
+    loadPortfolioReadmes(repos);
 
     if (!repos.length) {
       repoGrid.innerHTML = '<div class="repo-empty">No public repositories were found on this GitHub account.</div>';
@@ -2234,7 +2316,21 @@ document.getElementById("arcTrigger").addEventListener("click", e => {
 document.getElementById("menu").onclick = () => document.getElementById("links").classList.toggle("open");
 document.querySelectorAll("#links a").forEach(a => a.addEventListener("click", () => document.getElementById("links").classList.remove("open")));
 
-/* Simple client-side portfolio Q&A. No external AI API or fabricated claims. */
+/* 296 Portfolio Assistant: evidence-grounded retrieval, not a fabricated free-form bot.
+   It uses the visible portfolio facts, live GitHub metadata, and README text when available.
+   For a true generative AI model, connect a secure backend; never place an API key in this HTML. */
+async function loadPortfolioReadmes(repos) {
+  const targets = (repos || []).slice(0, 15);
+  await Promise.allSettled(targets.map(async repo => {
+    const branch = repo.default_branch || "main";
+    const url = `https://raw.githubusercontent.com/${encodeURIComponent(githubUsername)}/${encodeURIComponent(repo.name)}/${encodeURIComponent(branch)}/README.md`;
+    const response = await fetch(url, { headers: { "Accept": "text/plain" }, cache: "force-cache" });
+    if (!response.ok) return;
+    const text = (await response.text()).slice(0, 18000);
+    window.portfolioReadmes[repo.name.toLowerCase()] = text;
+  }));
+}
+
 (() => {
   const launcher = document.getElementById('about-bot-launcher');
   const panel = document.getElementById('about-bot');
@@ -2255,48 +2351,121 @@ document.querySelectorAll("#links a").forEach(a => a.addEventListener("click", (
     messages.appendChild(el);
     messages.scrollTop = messages.scrollHeight;
   }
+  const norm = value => String(value || '').toLowerCase().replace(/[^a-z0-9+#.\s_-]/g, ' ').replace(/\s+/g, ' ').trim();
+  function pageFacts() {
+    return ['home','projects','about','education','skills','contact'].map(id => {
+      const el = document.getElementById(id);
+      return el ? { id, text: el.innerText || el.textContent || '' } : null;
+    }).filter(Boolean);
+  }
+  function repoMatches(q) {
+    const terms = norm(q).split(' ').filter(t => t.length > 2);
+    return (window.portfolioRepos || []).map(repo => {
+      const corpus = norm([repo.name, repo.description, repo.language, ...(repo.topics || [])].join(' '));
+      let score = 0;
+      terms.forEach(term => {
+        if (norm(repo.name).includes(term)) score += 5;
+        else if (corpus.includes(term)) score += 2;
+      });
+      return { repo, score };
+    }).filter(item => item.score > 0).sort((a,b) => b.score-a.score).slice(0,4);
+  }
+  function excerpt(text, query, max=950) {
+    const clean = String(text || '').replace(/```[\s\S]*?```/g, ' ').replace(/!\[[^\]]*\]\([^)]*\)/g,' ').replace(/\[([^\]]+)\]\([^)]*\)/g,'$1').replace(/[#>*`_~-]/g,' ').replace(/\s+/g,' ').trim();
+    if (!clean) return '';
+    const terms = norm(query).split(' ').filter(t => t.length > 3);
+    const sentences = clean.split(/(?<=[.!?])\s+/);
+    const ranked = sentences.map((sentence, i) => ({
+      sentence, i, score: terms.reduce((sum, term) => sum + (norm(sentence).includes(term) ? 1 : 0), 0)
+    })).filter(x => x.sentence.length > 25).sort((a,b) => b.score-a.score || a.i-b.i);
+    const chosen = ranked.slice(0,5).sort((a,b)=>a.i-b.i).map(x=>x.sentence);
+    return (chosen.join(' ').slice(0,max) || clean.slice(0,max));
+  }
   function answer(question) {
-    const q = question.toLowerCase();
-    if (/who is darshan|about darshan|tell me about|about him|background|bio/.test(q)) {
-      return 'Darshan H V is a Computer Science and Engineering student specializing in AI and Machine Learning at PES University, Bengaluru. He previously completed a Diploma in Mechanical Engineering. His interests include applied ML, software development, IoT, and engineering-focused projects.';
+    const q = norm(question);
+    if (!q) return 'Please enter a question.';
+    if (/^(hi|hello|hey|good morning|good evening)$/.test(q)) return 'Hello! Ask me about Darshan’s background, education, skills, a named project, or contact details.';
+    if (/contact|email|linkedin|reach|github profile/.test(q)) {
+      return 'Contact details listed on the portfolio:\nEmail: darshanhv296@gmail.com\nLinkedIn: https://www.linkedin.com/in/darshanhv296\nGitHub: https://github.com/darshanhv296';
+    }
+    if (/who is|about darshan|tell me about darshan|background|bio/.test(q)) {
+      return 'Darshan H V is pursuing Computer Science and Engineering with an AI & Machine Learning focus at PES University in Bengaluru. He also has a Diploma background in Mechanical Engineering. His portfolio presents work across applied machine learning, software, IoT, and engineering design.';
     }
     if (/education|degree|college|university|study|studying|diploma/.test(q)) {
-      return 'Darshan is pursuing a B.Tech in Computer Science and Engineering (AIML) at PES University, Bengaluru (2024–present). He has also completed a Diploma in Mechanical Engineering.';
+      return 'The portfolio lists B.Tech in Computer Science and Engineering (AI & Machine Learning) at PES University, Bengaluru (2024–present), plus a Diploma in Mechanical Engineering.';
     }
-    if (/project|built|work|portfolio|github|repository|repos/.test(q)) {
-      return 'The portfolio loads public repositories live from GitHub. Current project themes include FairPrompt and ML experimentation, smart farming and irrigation, ARC FLASH LAN file sharing, and ARC STRUCTURE / truss-design tooling. Open the Projects section to see the latest public repository list and click a repository for its details.';
+    if (/location|where.*based|city/.test(q)) return 'The portfolio lists Bengaluru, India.';
+    if (/skill|technology|tech stack|programming language|tools/.test(q)) {
+      const section = pageFacts().find(x=>x.id==='skills');
+      return section ? 'Skills shown on the portfolio:\n' + excerpt(section.text, q, 1300) : 'I could not read the skills section from the page.';
     }
-    if (/skill|technology|tech stack|programming|language|tools/.test(q)) {
-      return 'Technologies and areas shown on this portfolio include Python, machine learning, PyTorch, Flask, JavaScript, MySQL, Git/GitHub, IoT sensors, and Android development. The exact tools vary by project.';
+    if (/experience|internship|employment|worked at|work history/.test(q)) {
+      const facts = pageFacts().map(x=>x.text).join('\n');
+      const matches = facts.split('\n').filter(line => /experience|internship|employment|worked|company/i.test(line));
+      return matches.length ? 'Here is what the portfolio currently states:\n' + matches.slice(0,8).join('\n') : 'I can’t verify employment or internship details from the visible portfolio content. I won’t infer employers or dates.';
     }
-    if (/career|job|role|opportunit|hire|internship/.test(q)) {
-      return 'Darshan’s stated interests include AI/ML research, software engineering, and practical engineering projects. For opportunities, contact him directly using the email or LinkedIn links on this page.';
+    const matches = repoMatches(q);
+    if (matches.length) {
+      const repo = matches[0].repo;
+      const readme = window.portfolioReadmes?.[repo.name.toLowerCase()] || '';
+      const meta = [
+        `${repo.name}: ${repo.description || 'No GitHub description is available.'}`,
+        `Primary language: ${repo.language || 'not specified by GitHub'}.`,
+        `Public repository: ${repo.html_url}.`,
+        `Last updated: ${repo.updated_at ? new Date(repo.updated_at).toLocaleDateString() : 'not available'}.`
+      ].join(' ');
+      const readmeExcerpt = readme ? excerpt(readme, q, 900) : '';
+      if (/language|written in|built with|tech stack|technology|framework/.test(q)) {
+        return `${repo.name}\nGitHub lists the primary language as ${repo.language || 'not specified'}. ${repo.description || ''}\nRepository: ${repo.html_url}${readmeExcerpt ? '\nREADME context: ' + readmeExcerpt : ''}`;
+      }
+      if (/stars|forks|updated|last update|popular/.test(q)) {
+        return `${repo.name}\nStars: ${repo.stargazers_count || 0}; forks: ${repo.forks_count || 0}; last updated: ${repo.updated_at ? new Date(repo.updated_at).toLocaleDateString() : 'not available'}.\n${repo.html_url}`;
+      }
+      return `${meta}${readmeExcerpt ? '\n\nFrom its README: ' + readmeExcerpt : '\nI could not retrieve this repository’s README, so I’m limiting the answer to its public GitHub metadata.'}`;
     }
-    if (/contact|email|linkedin|reach/.test(q)) {
-      return 'Email: darshanhv296@gmail.com\\nLinkedIn: linkedin.com/in/darshanhv296\\nGitHub: github.com/darshanhv296';
+    if (/project|projects|built|work|portfolio|repository|repo/.test(q)) {
+      const repos = window.portfolioRepos || [];
+      if (!repos.length) return 'GitHub repositories have not loaded yet. Check your connection or open https://github.com/darshanhv296?tab=repositories. I can give more specific answers after repository metadata loads.';
+      return `I found ${repos.length} public repositories on Darshan’s GitHub. Ask about one by its repository name, or browse them here: https://github.com/darshanhv296?tab=repositories. I won’t claim a project feature unless its description or README supports it.`;
     }
-    if (/location|where|based|city/.test(q)) {
-      return 'The portfolio lists Bengaluru, India, and PES University, Bengaluru.';
-    }
-    if (/truss|structure|arc structure/.test(q)) {
-      return 'ARC STRUCTURE is part of Darshan’s engineering project work around structural/truss design tools and 3D visualization. Please open its GitHub repository for the most accurate implementation details.';
-    }
-    if (/irrigation|farm|krushi|iot|sensor/.test(q)) {
-      return 'His smart-farming project explores sensor-based monitoring and intelligent irrigation, combining IoT readings with machine-learning workflows. Check the related repository for current implementation details.';
-    }
-    if (/arc flash|file shar|lan/.test(q)) {
-      return 'ARC FLASH is a local-network file-sharing project focused on transfers between mobile devices and computers. The repository provides the current features and technical implementation.';
-    }
-    if (/ai|machine learning|ml model/.test(q)) {
-      return 'Darshan works on applied machine learning and model experimentation. The portfolio links to his public repositories, where you can inspect the datasets, code, and results available for each project.';
-    }
-    return 'I can answer about Darshan’s background, education, skills, project themes, and contact links. Try asking “Tell me about Darshan”, “What projects has he built?”, or “How can I contact him?”';
+    const candidates = pageFacts().map(section => ({...section, score: norm(section.text).split(' ').filter(w=>w.length>3 && q.includes(w)).length}));
+    const best = candidates.sort((a,b)=>b.score-a.score)[0];
+    if (best && best.score >= 2) return `The portfolio section most relevant to your question says:\n${excerpt(best.text, q, 900)}`;
+    return 'I can’t verify that from the information currently available on this portfolio. Try asking about Darshan’s education, listed skills, contact details, or a specific public GitHub repository. For project implementation details, I use the repository description and README when available rather than inventing an answer.';
   }
-  function ask(question) {
+  async function ask(question) {
     const q = question.trim();
     if (!q) return;
     addMessage(q, 'user');
-    addMessage(answer(q), 'bot');
+    const pending = document.createElement('div');
+    pending.className = 'bot-msg bot';
+    pending.textContent = 'Checking portfolio evidence…';
+    messages.appendChild(pending);
+    messages.scrollTop = messages.scrollHeight;
+    try {
+      const context = {
+        sections: pageFacts().map(section => ({ section: section.id, text: section.text.slice(0, 5000) })),
+        repositories: (window.portfolioRepos || []).slice(0, 100).map(repo => ({
+          name: repo.name, description: repo.description, language: repo.language,
+          url: repo.html_url, stars: repo.stargazers_count, forks: repo.forks_count,
+          updated_at: repo.updated_at, topics: repo.topics || [],
+          readme: (window.portfolioReadmes?.[repo.name.toLowerCase()] || '').slice(0, 7000)
+        }))
+      };
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: q, context })
+      });
+      if (!response.ok) throw new Error('AI backend unavailable');
+      const data = await response.json();
+      if (!data || typeof data.answer !== 'string' || !data.answer.trim()) throw new Error('Empty AI response');
+      pending.textContent = data.answer.trim();
+    } catch (_) {
+      // Local evidence-based fallback works when the AI backend has not been deployed/configured.
+      pending.textContent = answer(q);
+    }
+    messages.scrollTop = messages.scrollHeight;
   }
   launcher.addEventListener('click', () => toggleBot(!panel.classList.contains('open')));
   close.addEventListener('click', () => toggleBot(false));
@@ -2308,6 +2477,88 @@ document.querySelectorAll("#links a").forEach(a => a.addEventListener("click", (
   panel.querySelectorAll('[data-question]').forEach(btn => btn.addEventListener('click', () => ask(btn.dataset.question)));
 })();
 
+
+/* Reveal About cards on scroll and move their subtle glow with the pointer. */
+(() => {
+  const cards = document.querySelectorAll('.reveal-card');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+    cards.forEach(card => observer.observe(card));
+  } else {
+    cards.forEach(card => card.classList.add('is-visible'));
+  }
+  document.querySelectorAll('.about-animated .panel').forEach(panel => {
+    panel.addEventListener('pointermove', event => {
+      const rect = panel.getBoundingClientRect();
+      panel.style.setProperty('--glow-x', `${event.clientX - rect.left}px`);
+      panel.style.setProperty('--glow-y', `${event.clientY - rect.top}px`);
+    }, { passive: true });
+  });
+})();
+
+
+/* Lightweight site-wide polish: reading progress, reveal-on-scroll, active nav, back-to-top. */
+(() => {
+  const progress = document.getElementById('pageProgress');
+  const topButton = document.getElementById('backToTop');
+  const navLinks = [...document.querySelectorAll('.top .links a[href^="#"]')];
+  const sections = [...document.querySelectorAll('main section[id]')].filter(section => section.id !== 'about-bot');
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function onScroll() {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    if (progress) progress.style.width = `${Math.max(0, Math.min(1, ratio)) * 100}%`;
+    if (topButton) topButton.classList.toggle('visible', window.scrollY > 480);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  topButton?.addEventListener('click', () => window.scrollTo({top:0, behavior: reduced ? 'auto' : 'smooth'}));
+
+  if (!reduced && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('motion-ready');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -35px 0px'});
+    const observeExisting = () => {
+      document.querySelectorAll('main section:not(#home) .heading, .repo-card, .skill, .contact-card, .edu').forEach(el => {
+        if (!el.classList.contains('in-view') && !el.dataset.revealObserved) {
+          el.dataset.revealObserved = '1';
+          observer.observe(el);
+        }
+      });
+    };
+    observeExisting();
+    const repoGrid = document.getElementById('repoGrid');
+    if (repoGrid && 'MutationObserver' in window) {
+      new MutationObserver(observeExisting).observe(repoGrid, {childList:true,subtree:true});
+    }
+  }
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const activeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
+        }
+      });
+    }, {rootMargin:'-25% 0px -60% 0px', threshold:0});
+    sections.forEach(section => activeObserver.observe(section));
+  }
+})();
 </script>
 </body>
 </html>
