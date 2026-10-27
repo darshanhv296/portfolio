@@ -2191,12 +2191,14 @@ async function loadGitHubRepositories() {
       const language = repo.language || "Multiple / Unspecified";
       const stars = Number(repo.stargazers_count) || 0;
       const forks = Number(repo.forks_count) || 0;
-      const description = repo.description || "No description added yet. Open the repository to explore its source code and documentation.";
+      const description = repo.description || "Project description is being loaded from the repository README…";
       const repoData = {
         title: repo.name,
         cat: repo.fork ? "PUBLIC FORK" : "PUBLIC REPOSITORY",
         desc: description,
-        detail: description,
+        detail: projectDescription(repo),
+        fullName: repo.full_name,
+        defaultBranch: repo.default_branch || "main",
         lang: language,
         stars: `★ ${stars}`,
         forks: `⑂ ${forks}`,
@@ -2269,7 +2271,30 @@ function openProjectExperience(item, clickX, clickY) {
 
   document.getElementById("modalCategory").textContent = item.cat || "TACTICAL SYSTEM";
   document.getElementById("modalTitle").textContent = item.title;
-  document.getElementById("modalDescription").textContent = item.detail || item.desc;
+  const descriptionEl = document.getElementById("modalDescription");
+  descriptionEl.textContent = item.detail || item.desc || "Loading project description from GitHub…";
+  // If README content has not arrived yet, fetch it on demand and update this
+  // modal when the result belongs to the project currently being viewed.
+  if (item.fullName && !window.portfolioReadmes?.[item.title.toLowerCase()]) {
+    descriptionEl.textContent = item.desc || "Loading the project's README description…";
+    const requestedTitle = item.title;
+    const requestedUrl = item.repo;
+    const branch = item.defaultBranch || "main";
+    fetch(`https://raw.githubusercontent.com/${encodeURIComponent(githubUsername)}/${encodeURIComponent(item.title)}/${encodeURIComponent(branch)}/README.md`, { cache: "force-cache" })
+      .then(response => response.ok ? response.text() : "")
+      .then(markdown => {
+        if (markdown) window.portfolioReadmes[item.title.toLowerCase()] = markdown.slice(0, 18000);
+        if (overlay.classList.contains("active") && document.getElementById("modalTitle").textContent === requestedTitle && document.getElementById("modalGithubLink").href === requestedUrl) {
+          const repo = (window.portfolioRepos || []).find(entry => entry.name === requestedTitle);
+          descriptionEl.textContent = repo ? projectDescription(repo) : (readmeProjectSummary(markdown) || item.desc || "No README description is available for this repository.");
+        }
+      })
+      .catch(() => {
+        if (overlay.classList.contains("active") && document.getElementById("modalTitle").textContent === requestedTitle) {
+          descriptionEl.textContent = item.desc || "README could not be loaded. Open the repository to inspect its documentation.";
+        }
+      });
+  }
   document.getElementById("modalLang").textContent = item.lang || (item.tech ? item.tech.split('·')[0].trim() : "Python");
   document.getElementById("modalStars").textContent = item.stars || "★ 0";
   document.getElementById("modalForks").textContent = item.forks || "⑂ 0";
@@ -2320,15 +2345,51 @@ document.querySelectorAll("#links a").forEach(a => a.addEventListener("click", (
    It uses the visible portfolio facts, live GitHub metadata, and README text when available.
    For a true generative AI model, connect a secure backend; never place an API key in this HTML. */
 async function loadPortfolioReadmes(repos) {
-  const targets = (repos || []).slice(0, 15);
-  await Promise.allSettled(targets.map(async repo => {
-    const branch = repo.default_branch || "main";
-    const url = `https://raw.githubusercontent.com/${encodeURIComponent(githubUsername)}/${encodeURIComponent(repo.name)}/${encodeURIComponent(branch)}/README.md`;
-    const response = await fetch(url, { headers: { "Accept": "text/plain" }, cache: "force-cache" });
-    if (!response.ok) return;
-    const text = (await response.text()).slice(0, 18000);
-    window.portfolioReadmes[repo.name.toLowerCase()] = text;
-  }));
+  // Fetch README files with bounded concurrency so descriptions can be grounded
+  // in each repository's own documentation without overwhelming GitHub.
+  const targets = (repos || []).slice(0, 40);
+  let cursor = 0;
+  const workers = Array.from({ length: Math.min(6, targets.length) }, async () => {
+    while (cursor < targets.length) {
+      const repo = targets[cursor++];
+      try {
+        const branch = repo.default_branch || "main";
+        const url = `https://raw.githubusercontent.com/${encodeURIComponent(githubUsername)}/${encodeURIComponent(repo.name)}/${encodeURIComponent(branch)}/README.md`;
+        const response = await fetch(url, { headers: { "Accept": "text/plain" }, cache: "force-cache" });
+        if (!response.ok) continue;
+        const text = (await response.text()).slice(0, 18000);
+        window.portfolioReadmes[repo.name.toLowerCase()] = text;
+      } catch (_) { /* Keep GitHub metadata as the fallback. */ }
+    }
+  });
+  await Promise.allSettled(workers);
+}
+
+function readmeProjectSummary(markdown) {
+  if (!markdown) return "";
+  const cleaned = markdown
+    .replace(/^```[\s\S]*?^```/gm, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/<img\b[^>]*>/gi, " ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/^\s*#+\s*/gm, "")
+    .replace(/^\s*[-*+>]\s*/gm, "")
+    .replace(/`{1,3}([^`]+)`{1,3}/g, "$1")
+    .replace(/[*_~]/g, "")
+    .replace(/https?:\/\/\S+/g, "")
+    .replace(/\r/g, "");
+  const paragraphs = cleaned.split(/\n\s*\n/)
+    .map(part => part.replace(/\s+/g, " ").trim())
+    .filter(part => part.length > 45 && !/^(table of contents|contents|installation|requirements|license|contributing)$/i.test(part));
+  const summary = paragraphs.find(part => !/^badge|^\[!|^version|^copyright/i.test(part)) || "";
+  return summary.slice(0, 650);
+}
+
+function projectDescription(repo) {
+  const readme = window.portfolioReadmes?.[repo.name.toLowerCase()] || "";
+  const summary = readmeProjectSummary(readme);
+  if (summary) return summary;
+  return repo.description || "This repository does not currently provide a GitHub description or readable README summary. Open the repository to inspect its source code and documentation.";
 }
 
 (() => {
