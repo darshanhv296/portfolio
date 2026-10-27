@@ -1021,11 +1021,37 @@ section { padding: 55px 0; }
   transform: scale(1.1);
   box-shadow: 0 0 15px var(--crimson-glow);
 }
+.project-overview-block {
+  position: relative;
+  margin: 0 0 22px;
+  padding: 15px 17px 16px;
+  border: 1px solid rgba(75, 174, 255, .22);
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba(28, 64, 105, .20), rgba(5, 12, 24, .52));
+  box-shadow: inset 3px 0 0 rgba(53, 203, 238, .72);
+  animation: overviewReveal .42s ease both;
+}
+.project-overview-label {
+  margin-bottom: 7px;
+  color: var(--reactor, #80dfff);
+  font-family: var(--font-vr, monospace);
+  font-size: 10px;
+  letter-spacing: .15em;
+  font-weight: 700;
+}
 .panel-desc {
   font-size: 15px;
   color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 22px;
+  line-height: 1.75;
+  margin: 0;
+  white-space: pre-wrap;
+}
+@keyframes overviewReveal {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-overview-block { animation: none; }
 }
 .panel-telemetry {
   display: grid;
@@ -1556,7 +1582,10 @@ section:not(#about-bot) .heading,.repo-card,.skill,.contact-card,.edu{transition
       <button class="panel-close-btn" id="overlayCloseBtn" aria-label="Close Project">&times;</button>
     </div>
 
-    <p class="panel-desc" id="modalDescription">System description...</p>
+    <div class="project-overview-block">
+      <div class="project-overview-label">PROJECT OVERVIEW</div>
+      <p class="panel-desc" id="modalDescription">Loading the repository description…</p>
+    </div>
 
     <!-- Telemetry Badges -->
     <div class="panel-telemetry">
@@ -2183,6 +2212,7 @@ async function loadGitHubRepositories() {
     repos.forEach((repo, index) => {
       const card = document.createElement("article");
       card.className = "repo-card";
+      card.dataset.repoName = repo.name.toLowerCase();
       card.tabIndex = 0;
       card.setAttribute("role", "button");
       card.setAttribute("aria-label", `Open details for ${repo.name}`);
@@ -2272,11 +2302,11 @@ function openProjectExperience(item, clickX, clickY) {
   document.getElementById("modalCategory").textContent = item.cat || "TACTICAL SYSTEM";
   document.getElementById("modalTitle").textContent = item.title;
   const descriptionEl = document.getElementById("modalDescription");
-  descriptionEl.textContent = item.detail || item.desc || "Loading project description from GitHub…";
+  descriptionEl.textContent = item.detail || (item.desc && !item.desc.startsWith("Project description is being loaded") ? item.desc : "Loading the repository README to find a project-specific description…");
   // If README content has not arrived yet, fetch it on demand and update this
   // modal when the result belongs to the project currently being viewed.
   if (item.fullName && !window.portfolioReadmes?.[item.title.toLowerCase()]) {
-    descriptionEl.textContent = item.desc || "Loading the project's README description…";
+    descriptionEl.textContent = (item.desc && !item.desc.startsWith("Project description is being loaded")) ? item.desc : "Loading the repository README to find a project-specific description…";
     const requestedTitle = item.title;
     const requestedUrl = item.repo;
     const branch = item.defaultBranch || "main";
@@ -2359,6 +2389,18 @@ async function loadPortfolioReadmes(repos) {
         if (!response.ok) continue;
         const text = (await response.text()).slice(0, 18000);
         window.portfolioReadmes[repo.name.toLowerCase()] = text;
+        const summary = projectDescription(repo);
+        const matchingCard = document.querySelector(`.repo-card[data-repo-name="${CSS.escape(repo.name.toLowerCase())}"]`);
+        if (matchingCard) {
+          const cardDescription = matchingCard.querySelector("p");
+          if (cardDescription && summary) cardDescription.textContent = summary;
+        }
+        // If the project modal is already open, refresh its description as soon as its README arrives.
+        const modalTitle = document.getElementById("modalTitle");
+        const modalDescription = document.getElementById("modalDescription");
+        if (modalTitle && modalDescription && modalTitle.textContent === repo.name && document.getElementById("supernovaOverlay")?.classList.contains("active")) {
+          modalDescription.textContent = summary || repo.description || "No readable README description is available. Open the repository for its documentation.";
+        }
       } catch (_) { /* Keep GitHub metadata as the fallback. */ }
     }
   });
